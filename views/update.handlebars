@@ -1,0 +1,69 @@
+<body>
+
+  <header>
+    <!-- The <i> tag below includes the bullhorn icon from Font Awesome -->
+    <a href="./"><h1 class="site-title">Project Management Tool</h1></a>
+
+    <nav class="navbar">
+      <ul class="navlist">
+              <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
+              <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
+              <li class="navitem navlink"><a href="./updateDepartment">Update/Delete a department</a></li>
+              <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
+              <li class="navitem navlink"><a href="./updateProgrammer">Update/Delete a programmer</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+   <h2>Update Project</h2>
+	
+	<div class="input-element">
+            <label class="prompt" for="name-input">Name</label>
+            <input type="text" class="box" id="name-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="rooms-input">Start_date</label>
+            <input type="date" class="box" id="start-date-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="roommates-input">Anticipated_end_date</label>
+            <input type="date" class="box" id="end-date-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="price-input">Budget</label>
+            <input type="text" class="box" id="budget-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="address-input">Client_id</label>
+            <input type="text" class="box" id="clientId-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="address-input">Department_id</label>
+            <input type="text" class="box" id="departmentId-attribution-input">
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="address-input">Programmer_id</label>
+            <input type="text" class="box" id="programmerId-attribution-input">
+          </div>
+
+      <br>
+      <button type="button" class="accept-button">Update</button>
+
+   <h2>Delete Project</h2>
+
+      <p>Project Name</p>
+      <select>
+              <option disabled selected value> -- select -- </option>
+      </select>
+
+      <br>
+      <button type="button" class="accept-button">Delete</button>
+
+
+  </main>
+
+</body>
+
+</html>

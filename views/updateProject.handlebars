@@ -1,0 +1,14 @@
+<h1>Update {{project.Name}}:</h1>
+	<form id="updateProjectform" action="/diagnostic" method="post">
+		Name: <input type="text" name="pname" value="{{project.Name}}"><br>
+		Start_date: <input type="text" name="pstart" value="{{project.Start_date}}"><br>
+		Anticipated_end_date: <input type="text" name="pend" value="{{project.Anticipated_end_date}}"><br>
+		Budget: <input type="text" name="pbudget" value="{{project.Budget}}"><br>
+		Client: <select name="client_id" id="client-selector">
+			{{#each client}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+	</form>
+<button onclick="update_Project({{project.ID}})">Update</button>
+<script defer>select_Client({{project.Client_id}});</script>

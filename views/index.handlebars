@@ -1,0 +1,53 @@
+  <body>
+
+    <header>
+      <!-- The <i> tag below includes the bullhorn icon from Font Awesome -->
+      <a href="./"><h1 class="site-title">Project Management Tool</h1></a>
+
+      <nav class="navbar">
+        <ul class="navlist">
+          <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
+          <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
+          <li class="navitem navlink"><a href="./updateDepartment">Update/Delete a department</a></li>
+          <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
+          <li class="navitem navlink"><a href="./updateProgrammer">Update/Delete a programmer</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+
+    <h3>Current Projects:</h3>
+    <table>
+    	<thead>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Budget</th>
+		<th>Client</th>
+		<th>Department</th>
+		<th>Programmer</th>
+	</thead>
+	<tbody>
+		{{#each project}}
+		<tr>
+			<td>{{ID}}</td>
+			<td>{{Name}}</td>
+			<td>{{Start_date}}</td>
+			<td>{{Anticipated_end_date}}</td>
+			<td>{{Budget}}</td>
+			<td>{{Client}}</td>
+			<td>{{Departments}}</td>
+			<td>{{Programmers}}</td>
+			<td><a href="/update/{{ID}}">Update</a></td>
+		</tr>
+		{{/each}}
+	</tbody>
+    </table>
+
+    </main>
+
+  </body>
+
+</html>
