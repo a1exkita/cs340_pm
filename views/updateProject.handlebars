@@ -10,5 +10,9 @@
 			{{/each}}
 		</select><br>
 	</form>
+<div>	
+	<div><a href="/updateDepartment/{{project.ID}}">Update Department</a></div>
+	<div><a href="/updateProgrammer/{{project.ID}}">Update Programmers</a></div>
+</div>
 <button onclick="update_Project({{project.ID}})">Update</button>
 <script defer>select_Client({{project.Client_id}});</script>

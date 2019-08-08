@@ -1,71 +1,20 @@
-<body>
+<h1>Update Programmer for {{project.Name}}:</h1>
 
-  <header>
-    <!-- The <i> tag below includes the bullhorn icon from Font Awesome -->
-    <a href="./"><h1 class="site-title">Project Management Tool</h1></a>
-
-    <nav class="navbar">
-      <ul class="navlist">
-        <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
-        <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
-        <li class="navitem navlink"><a href="./updateDepartment">Update/Delete a department</a></li>
-        <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
-        <li class="navitem navlink"><a href="./updateProgrammer">Update/Delete a programmer</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-
-      <h2>Update Programmer</h2>
-
-      <p>Select Project</p>
-      <select>
-              <option disabled selected value> -- select -- </option>
-              <option value="volvo">Secret</option>
-              <option value="volvo">Acorn</option>
-              <option value="volvo">Oak</option>
-      </select>
-
-      <p>Old Programmer</p>
-      <select>
-              <option disabled selected value> -- select -- </option>
-              <option value="volvo">Atsuhito Kita</option>
-      </select>
-      <p>New Programmer</p>
-      <select>
-              <option disabled selected value> -- select -- </option>
-              <option value="volvo">Chew Min</option>
-      </select>
-
-      <br>
-      <button type="button" class="accept-button">Update</button>
-
-      <h2>Delete Programmer</h2>
-
-      <p>Select Project</p>
-      <select>
-              <option disabled selected value> -- select -- </option>
-              <option value="volvo">Secret</option>
-              <option value="volvo">Acorn</option>
-              <option value="volvo">Oak</option>
-      </select>
-
-      <p>Select Programmer</p>
-
-      <select>
-              <option disabled selected value> -- select -- </option>
-              <option value="volvo">Atsuhito Kita</option>
-
-      </select>
-
-      <br>
-      <button type="button" class="accept-button">Delete</button>
-
-
-
-  </main>
-
-</body>
-
-</html>
+	<form id="updateProgrammerform" action="/diagnostic" method="post">
+   		Project ID: <select name="project_id" id="project-selector">
+			{{#each project}}
+				<option value="{{project.ID}}">{{project.Name}}</option>
+			{{/each}}
+		</select><br>
+		Old Programmer: <select name="old_programmer_id" id="old_programmer-selector">
+			{{#each old_programmer}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+		New Programmer: <select name="new_programmer_id" id="new_programmer-selector">
+			{{#each new_programmer}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+	</form>
+<button onclick="update_Programmer({{project.ID}})">Update Programmer</button>
