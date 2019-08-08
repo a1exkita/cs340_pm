@@ -17,4 +17,8 @@ $ git push origin sub1 // push your codes to remote repository
 
 // Now you can check that your branch is uploaded on the Github
 
+// If do you want to merge sub1 to master branch,
+$ git checkout master
+$ git merge sub1
+
 ```
