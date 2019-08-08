@@ -7,7 +7,6 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
 app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
 
 app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
@@ -16,7 +15,7 @@ app.use('/public', express.static('public'));
 
 
 
-function getProject(res, context, id, complete){
+function getProject(res, context, id, complete){	
 	var sql = "SELECT ID, Name, Start_date, Anticipated_end_date, Budget, Client_id FROM Projects WHERE ID = ?";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -37,6 +36,58 @@ function getClient(res, context, complete) {
                         return;
 		}
 		context.client = results;
+		complete();
+	});
+}
+
+
+function getOldDepartment(res, context, id, complete){	
+	var sql = "SELECT ID, Name FROM Departments D, Projects_to_Departments ptd WHERE ? = ptd.Project_id AND ptd.Department_id = D.ID";
+	var inserts = [id];
+	mysql.pool.query(sql, inserts, function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.old_department = results;
+		complete();
+	});
+}
+
+
+function getNewDepartment(res, context, complete){	
+	mysql.pool.query('SELECT ID, Name FROM Departments D', function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.new_department = results;
+		complete();
+	});
+}
+
+
+function getOldProgrammer(res, context, id, complete){	
+	var sql = "SELECT ID, Name FROM Programmers P, Projects_to_Programmers ptp WHERE ? = ptp.Project_id AND ptp.Programmer_id = P.ID";
+	var inserts = [id];
+	mysql.pool.query(sql, inserts, function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.old_programmer = results;
+		complete();
+	});
+}
+
+
+function getNewProgrammer(res, context, complete){	
+	mysql.pool.query('SELECT ID, Name FROM Programmers P', function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.new_programmer = results;
 		complete();
 	});
 }
@@ -64,13 +115,43 @@ app.get('/update/:id',function(req,res,next){
 	var context = {};
 	getProject(res, context, req.params.id, complete);
 	getClient(res, context, complete);
-	function complete() {
+	function complete() {	
 		callbackCount++;
 		if(callbackCount >= 2){
 			res.render('updateProject', context);
 		}
 	}
 });
+
+app.get('/updateDepartment/:id',function(req,res,next){
+	callbackCount = 0;
+	var context = {};
+	getProject(res, context, req.params.id, complete);
+	getOldDepartment(res, context, req.params.id, complete);
+	getNewDepartment(res, context, complete);
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 3){
+			res.render('updateDepartment', context);
+		}
+	}
+});
+
+
+app.get('/updateProgrammer/:id',function(req,res,next){
+	callbackCount = 0;
+	var context = {};
+	getProject(res, context, req.params.id, complete);
+	getOldProgrammer(res, context, req.params.id, complete);
+	getNewProgrammer(res, context, complete);
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 3){
+			res.render('updateProgrammer', context);
+		}
+	}
+});
+
 
 app.post('/', function(req, res, next){
 	var sql = "INSERT INTO Projects (Name, Start_date, Anticipated_end_date, Budget, Client_id) VALUES (?,?,?,?,(SELECT C.ID FROM Clients C WHERE C.Name = ?))";
@@ -80,7 +161,7 @@ app.post('/', function(req, res, next){
 			next(err);
                         return;
 		}else{
-			res.redirect('index');
+			res.redirect('index');	
 		}
 	});
 });
@@ -100,14 +181,39 @@ app.put('/index/:id', function(req,res, next){
 	});
 });
 
-app.get('/updateDepartment',function(req,res,next){
-    res.render('updateDepartment');
+
+app.put('/updateDepartment/:id', function(req,res, next){
+	var sql = "UPDATE Projects_to_Departments SET Department_id=? WHERE Project_id=? AND Department_id=?";
+	var inserts = [req.body.new_department_id, req.params.id, req.body.old_department_id];
+	sql = mysql.pool.query(sql, inserts, function(err, results, fields){
+		if(err) {
+			next(err);
+			return;
+		}else{
+			res.status(200);
+			res.end();
+		}
+	});
 });
+
+app.put('/updateProgrammer/:id', function(req,res, next){
+	console.log(req.body);
+	var sql = "UPDATE Projects_to_Programmers SET Programmer_id=? WHERE Project_id=? AND Programmer_id=?";
+	var inserts = [req.body.new_programmer_id, req.params.id, req.body.old_programmer_id];
+	sql = mysql.pool.query(sql, inserts, function(err, results, fields){
+		if(err) {
+			next(err);
+			return;
+		}else{
+			res.status(200);
+			res.end();
+		}
+	});
+});
+
+
 app.get('/addProgrammer',function(req,res,next){
     res.render('addProgrammer');
-});
-app.get('/updateProgrammer',function(req,res,next){
-    res.render('updateProgrammer');
 });
 
 app.get('/addDepartment',function(req,res,next){
