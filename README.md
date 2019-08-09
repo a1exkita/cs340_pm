@@ -1,4 +1,4 @@
-### 🚀 Git Commands Tips
+# 🚀 Git Commands Tips
 ## Fork and Merge a Branch
 Every time when you try to make a change, you need to generate & change your branch as follows.
 ```shell
