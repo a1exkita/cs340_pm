@@ -50,8 +50,8 @@ Suppose that you changed your local files on master branch, but you did not add 
 	// Your changes should be gone
 ```
 ## The State Terms on Your Local Repository
-*untracked: The file is new, Git knows nothing about it. If you git add <file>, it becomes:
-*staged: Now Git knows the file (tracked), but also made it part of the next commit batch (called the index). If you git commit, it becomes:
-*unchanged: The file has not changed since its last commit. If you modify it, it becomes:
-*unstaged: Modified but not part of the next commit yet. You can stage it again with git add
+- untracked: The file is new, Git knows nothing about it. If you git add <file>, it becomes:
+- staged: Now Git knows the file (tracked), but also made it part of the next commit batch (called the index). If you git commit, it becomes:
+- unchanged: The file has not changed since its last commit. If you modify it, it becomes:
+- unstaged: Modified but not part of the next commit yet. You can stage it again with git add
 	
