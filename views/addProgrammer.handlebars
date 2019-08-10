@@ -17,17 +17,18 @@
 
   <main>
           <h2>Select Project</h2>
-              <select>
+              <select id="select-project">
                       <option disabled selected value> -- select -- </option>
-                      <option value="volvo">Secret</option>
-                      <option value="volvo">Acorn</option>
-                      <option value="volvo">Oak</option>
+		      {{#each projects}}
+                      <option>{{Name}}</option>
+                      {{/each}}
               </select>
           <h2>Select Programmer</h2>
-              <select>
+              <select id="add-programmer">
                       <option disabled selected value> -- select -- </option>
-                      <option value="volvo">Chew Min</option>
-                      <option value="volvo">Atsuhito Kita</option>
+		      {{#each programmers}}
+                      <option>{{Name}}</option>
+		      {{/each}}
               </select>
         <br>      
         <button type="button" class="accept-button">Add</button>
