@@ -281,7 +281,7 @@ app.post('/addDepartment',function(req,res){
                         res.write(JSON>stringify(error));
                         res.end();
                 }
-                // res.redirect('/addDepartment');
+                res.redirect('/addProgrammer');
         });
 });
 
@@ -295,7 +295,7 @@ app.post('/addProgrammer',function(req,res){
                         res.write(JSON>stringify(error));
                         res.end();
                 }   
-                // res.redirect('/addDepartment');
+                res.redirect('/');
         }); 
 });
 
