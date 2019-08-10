@@ -1,4 +1,4 @@
-var acceptBtn = document.getElementsByClassName('accept-button')[0];
+var acceptBtn = document.getElementsByClassName('accept-button2')[0];
 
 acceptBtn.addEventListener('click', function () {
 
@@ -23,14 +23,6 @@ acceptBtn.addEventListener('click', function () {
 
    postRequest.setRequestHeader('Content-Type', 'application/json');
    postRequest.send(requestBody);
-   window.location.pathname ='/';
-
-   cleanInput();
 });
 
-function cleanInput() {
-    document.getElementById('select-project').value= ""; 
-    document.getElementById('add-programmer').value= ""; 
-}
 
-cleanInput();
