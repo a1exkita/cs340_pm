@@ -22,14 +22,6 @@ acceptBtn.addEventListener('click', function () {
    });
    postRequest.setRequestHeader('Content-Type', 'application/json');
    postRequest.send(requestBody);
-   window.location.pathname ='/addProgrammer';
 
-   cleanInput();
 });
 
-function cleanInput() {
-    document.getElementById('select-project').value= "";
-    document.getElementById('add-department').value= "";
-}
-
-cleanInput();
