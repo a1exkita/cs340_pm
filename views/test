@@ -1,0 +1,20 @@
+function myFunction(s) {
+		var input, table, tr, td1, i, t;
+		t = s.options[s.selectedIndex].text;
+		console.log(t);
+		input = document.getElementById("project-selector");
+		table = document.getElementById("project-table");
+		tr = table.getElementsByTagName("tr");
+		for (i=0; i<tr.length; i++) {
+			td1 = tr[i].getElementsByTagName("td")[1];
+			if (td1) {
+				if (t == td1) {
+					tr[i].style.display = "";	
+				}
+				else {
+					tr[i].style.display = "none";	
+				}
+			}
+		}
+	}
+

@@ -93,16 +93,75 @@ function getNewProgrammer(res, context, complete){
 }
 
 
-app.get('/', function(req,res,next){
-        var context = {};
-	mysql.pool.query('SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, C.Name AS Client, D.Name AS Departments, P.Name AS Programmers FROM Projects p, Programmers P, Departments D, Clients C, Projects_to_Programmers ptp, Projects_to_Departments ptd WHERE C.ID = p.Client_id AND p.ID = ptp.Project_id AND ptp.Programmer_id = P.ID AND p.ID = ptd.Project_id AND ptd.Department_id = D.ID ORDER BY p.ID ASC;', function(err, rows, fields){
+function getAllProject(res, context, complete) {
+	mysql.pool.query('SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, C.Name AS Client, D.Name AS Departments, P.Name AS Programmers FROM Projects p, Programmers P, Departments D, Clients C, Projects_to_Programmers ptp, Projects_to_Departments ptd WHERE C.ID = p.Client_id AND p.ID = ptp.Project_id AND ptp.Programmer_id = P.ID AND p.ID = ptd.Project_id AND ptd.Department_id = D.ID ORDER BY p.ID ASC', function(err, rows, fields){
                 if(err){
                         next(err);
                         return;
                 }
-		context.project = rows;
-		res.render('index', context);
+		context.all_project = rows;
+		complete();
 	});
+}
+
+
+function getAllSelectedProject(res, context, complete) {
+	mysql.pool.query('SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, C.Name AS Client, D.Name AS Departments, P.Name AS Programmers FROM Projects p, Programmers P, Departments D, Clients C, Projects_to_Programmers ptp, Projects_to_Departments ptd WHERE C.ID = p.Client_id AND p.ID = ptp.Project_id AND ptp.Programmer_id = P.ID AND p.ID = ptd.Project_id AND ptd.Department_id = D.ID ORDER BY p.ID ASC', function(err, rows, fields){
+                if(err){
+                        next(err);
+                        return;
+                }
+		context.selected_project = rows;
+		complete();
+	});
+}
+
+
+function getSelectedProject(res, context, id, complete){	
+	var sql = "SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, C.Name AS Client, D.Name AS Departments, P.Name AS Programmers FROM Projects p, Programmers P, Departments D, Clients C, Projects_to_Programmers ptp, Projects_to_Departments ptd WHERE C.ID = p.Client_id AND p.ID = ? AND p.ID = ptp.Project_id AND ptp.Programmer_id = P.ID AND p.ID = ptd.Project_id AND ptd.Department_id = D.ID ORDER BY p.ID ASC";
+	var inserts = [id];
+	mysql.pool.query(sql, inserts, function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.selected_project = results;
+		complete();
+	});
+}
+
+
+app.get('/', function(req,res,next){
+        callbackCount = 0;
+	var context = {};
+	getAllProject(res, context, complete);
+	getAllSelectedProject(res, context, complete);
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 2){
+			res.render('index', context);
+		}
+	}
+
+});
+
+app.get('/filter', function(req,res,next){
+	callbackCount = 0;
+	var context = {};
+	getAllProject(res, context, complete);
+	if (req.query.project_id != 0) {
+		getSelectedProject(res, context, req.query.project_id, complete);
+	}
+	else {	
+		getAllSelectedProject(res, context, complete);
+	}
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 2){
+			res.render('index', context);
+		}
+	}
+
 });
 
 app.get('/insert',function(req,res,next){
@@ -142,11 +201,12 @@ app.get('/updateProgrammer/:id',function(req,res,next){
 	callbackCount = 0;
 	var context = {};
 	getProject(res, context, req.params.id, complete);
+	getOldDepartment(res, context, req.params.id, complete);
 	getOldProgrammer(res, context, req.params.id, complete);
 	getNewProgrammer(res, context, complete);
 	function complete() {	
 		callbackCount++;
-		if(callbackCount >= 3){
+		if(callbackCount >= 4){
 			res.render('updateProgrammer', context);
 		}
 	}
@@ -198,7 +258,7 @@ app.put('/updateDepartment/:id', function(req,res, next){
 
 app.put('/updateProgrammer/:id', function(req,res, next){
 	console.log(req.body);
-	var sql = "UPDATE Projects_to_Programmers SET Programmer_id=? WHERE Project_id=? AND Programmer_id=?";
+	var sql = "UPDATE Projects_to_Programmers ptp SET ptp.Programmer_id=? WHERE Project_id=? AND Programmer_id=?";
 	var inserts = [req.body.new_programmer_id, req.params.id, req.body.old_programmer_id];
 	sql = mysql.pool.query(sql, inserts, function(err, results, fields){
 		if(err) {
