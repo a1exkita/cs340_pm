@@ -7,12 +7,12 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
 app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 
 app.use('/public', express.static('public'));
-
 
 
 function getProject(res, context, id, complete){	
@@ -213,7 +213,26 @@ app.put('/updateProgrammer/:id', function(req,res, next){
 
 
 app.get('/addProgrammer',function(req,res,next){
-    res.render('addProgrammer');
+        var context = {}; 
+        var sql = "SELECT p.Name FROM Projects p";
+        sql = mysql.pool.query(sql, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON.stringify(error));
+                        res.end();
+                }   
+                context.projects = results;
+        }); 
+        var sql2 = "SELECT prog.Name FROM Programmers prog";
+        sql2 = mysql.pool.query(sql2, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON.stringify(error));
+                        res.end();
+                }   
+                context.programmers = results;
+                res.render('addProgrammer', context);
+        }); 
 });
 
 app.get('/addDepartment',function(req,res,next){
@@ -226,13 +245,21 @@ app.get('/addDepartment',function(req,res,next){
                         res.end();
                 }
                 context.projects = results;
-                res.render('addDepartment', context);
         });
+        var sql2 = "SELECT d.Name FROM Departments d";
+        sql2 = mysql.pool.query(sql2, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON.stringify(error));
+                        res.end();
+                }   
+                context.departments = results;
+                res.render('addDepartment', context);
+        }); 
 });
 
 
 app.post('/insert',function(req,res){
-//        var mysql = req.app.get('mysql');
         var values = [req.body.name, req.body.startDate, req.body.endDate, req.body.budget, req.body.clientId];
         var sql = "INSERT INTO Projects (Name, Start_date, Anticipated_end_date, Budget, Client_id) VALUES (?,?,?,?,?)";
         sql = mysql.pool.query(sql, values, function(error, results, fields){
@@ -241,16 +268,14 @@ app.post('/insert',function(req,res){
                         res.write(JSON>stringify(error));
                         res.end();
                 }
-                // res.redirect('/addDepartment');
         });
 });
 
-
 app.post('/addDepartment',function(req,res){
-//        var mysql = req.app.get('mysql');
-        var values = [req.body.selectProject, req.body.addDepartment];
-        var sql = "INSERT INTO Projects_to_Departments (Project_id, Department_id) VALUES";
-        sql = mysql.pool.query(sql, values, function(error, results, fields){
+        var val = req.body.selectProject;
+	var val2 = req.body.addDepartment;
+        var sql = "INSERT INTO Projects_to_Departments (Project_id, Department_id) VALUES((SELECT p.ID FROM Projects p WHERE p.Name = ?),(SELECT d.ID FROM Departments d WHERE d.Name = ?))";
+        sql = mysql.pool.query(sql, [val, val2], function(error, results, fields){
                 if(error){
                         console.log(JSON.stringify(error));
                         res.write(JSON>stringify(error));
@@ -258,6 +283,20 @@ app.post('/addDepartment',function(req,res){
                 }
                 // res.redirect('/addDepartment');
         });
+});
+
+app.post('/addProgrammer',function(req,res){
+        var val = req.body.selectProject;
+        var val2 = req.body.addProgrammer;
+        var sql = "INSERT INTO Projects_to_Programmers (Project_id, Programmer_id) VALUES((SELECT p.ID FROM Projects p WHERE p.Name = ?),(SELECT prog.ID FROM Programmers prog WHERE prog.Name = ?))";
+        sql = mysql.pool.query(sql, [val, val2], function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON>stringify(error));
+                        res.end();
+                }   
+                // res.redirect('/addDepartment');
+        }); 
 });
 
 app.use(function(req,res){

@@ -1,3 +1,4 @@
+<html>
   <body>
 
     <header>
@@ -20,18 +21,16 @@
                 <select id="select-project">
                         <option disabled selected value> -- select -- </option>
                         {{#each projects}}
-                                <option value="volvo">{{Name}}</option>
+                                <option>{{Name}}</option>
                         {{/each}}
 
                 </select>
             <h2>Add Deparment</h2>
                 <select id="add-department">
                         <option disabled selected value> -- select -- </option>
-                        <option value="volvo">Design</option>
-                        <option value="volvo">Finance</option>
-                        <option value="volvo">Development</option>
-                        <option value="volvo">Research</option>
-                        <option value="volvo">Marketing</option>
+			{{#each departments}}
+				<option>{{Name}}</option>
+			{{/each}}
                 </select>
             <br>
             <button type="button" class="accept-button">Add</button>
