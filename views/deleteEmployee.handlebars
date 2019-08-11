@@ -1,0 +1,16 @@
+<h1>Confirm Deletion of Employee</h1>
+	<form id="deleteEmployeeform" action="/diagnostic" method="post">
+		Project <select name="employee_project" id="employee-project-selector">
+			{{#each project}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+
+   		Employee to Delete <select name="employee_id" id="employee-selector">
+			{{#each selected_employee}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+
+		</form>
+<button onclick="delete_Employee({{project.ID}})">Delete Employee</button>

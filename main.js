@@ -106,6 +106,18 @@ function getNewEmployee(res, context, employee, id, complete, next){
 	});
 }
 
+function getSelectedProject(res, context, id, complete){	
+	var sql = "SELECT ID, Name FROM Projects WHERE ID=?";
+	var inserts = [id];
+	mysql.pool.query(sql, inserts, function(err, results, fields) {
+		if(err) {
+			next(err);
+                        return;
+		}
+		context.project = results;
+		complete();
+	});
+}
 
 app.get('/', function(req,res,next){
         callbackCount = 0;
@@ -157,6 +169,20 @@ app.get('/update/:id/:employee',function(req,res,next){
 });
 
 
+app.get('/delete/:id/:employee',function(req,res,next){
+	callbackCount = 0;
+	var context = {};
+	getSelectedProject(res, context, req.params.id, complete);
+	getSelectedEmployee(res, context, req.params.employee, complete);
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 2){
+			res.render('deleteEmployee', context);
+		}
+	}
+});
+
+
 app.get('/updateEmployee/:id/:employee',function(req,res,next){
 	callbackCount = 0;
 	var context = {};
@@ -190,6 +216,21 @@ app.put('/index/:id', function(req,res, next){
 app.put('/updateEmployeeQuery/:id', function(req,res, next){
 	var sql = "UPDATE Projects_to_Employees pte SET pte.Employee_id=? WHERE pte.Project_id=? AND pte.Employee_id=?";
 	var inserts = [req.body.new_employee_id, req.params.id, req.body.curr_employee_id];
+	sql = mysql.pool.query(sql, inserts, function(err, results, fields){
+		if(err) {
+			next(err);
+			return;
+		}else{
+			res.status(200);
+			res.end();
+		}
+	});
+});
+
+
+app.put('/deleteEmployee/:id', function(req,res, next){
+	var sql = "DELETE FROM Projects_to_Employees WHERE Project_id = ? AND Employee_id = ?";
+	var inserts = [Number(req.body.employee_project), Number(req.body.employee_id)];
 	sql = mysql.pool.query(sql, inserts, function(err, results, fields){
 		if(err) {
 			next(err);
