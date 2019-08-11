@@ -1,0 +1,16 @@
+<h1>Update Programmer for {{project.Name}}:</h1>
+
+	<form id="updateProgrammerform" action="/diagnostic" method="post">
+   		Current Employee <select name="curr_employee_id" id="curr-employee-selector">
+			{{#each selected_employee}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+		
+		New Employee: <select name="new_employee_id" id="new_employee-selector">
+			{{#each new_employee}}
+				<option value="{{ID}}">{{Name}}</option>
+			{{/each}}
+		</select><br>
+	</form>
+<button onclick="update_Employee({{project.ID}})">Update Employee</button>
