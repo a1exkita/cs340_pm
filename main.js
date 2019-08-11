@@ -117,6 +117,31 @@ function getSelectedDeleteProject(res, context, id, complete){
 	});
 }
 
+
+function getEmployee(res, context, complete) {
+	mysql.pool.query('SELECT ID, Name, Manager_id AS Manager, Department_id AS Department FROM Employees ORDER BY ID ASC;', function(err, rows, fields){
+                if(err){
+                        next(err);
+                        return;
+                }
+		context.employees = rows;
+		complete();
+	});
+}
+
+
+function getDepartment(res, context, complete) {
+	mysql.pool.query('SELECT ID, Name FROM Departments ORDER BY ID ASC;', function(err, rows, fields){
+                if(err){
+                        next(err);
+                        return;
+                }
+		context.departments = rows;
+		complete();
+	});
+}
+
+
 app.get('/', function(req,res,next){
         callbackCount = 0;
 	var context = {};
@@ -193,6 +218,21 @@ app.get('/updateEmployee/:id/:employee',function(req,res,next){
 			res.render('updateEmployee', context);
 		}
 	}
+});
+
+
+app.get('/displayTables', function(req,res,next){
+	callbackCount = 0;
+	var context = {};
+	getEmployee(res, context, complete);
+	getDepartment(res, context, complete);
+	function complete() {	
+		callbackCount++;
+		if(callbackCount >= 2){
+			res.render('displayTables', context);
+		}
+	}
+
 });
 
 
