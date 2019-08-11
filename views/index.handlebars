@@ -8,9 +8,7 @@
         <ul class="navlist">
           <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
           <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
-          <li class="navitem navlink"><a href="./updateDepartment">Update/Delete a department</a></li>
           <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
-          <li class="navitem navlink"><a href="./updateProgrammer">Update/Delete a programmer</a></li>
         </ul>
       </nav>
     </header>
@@ -26,11 +24,8 @@
 			<option value="{{ID}}">{{Name}}</option>
 		{{/each}}
 	</select><br>
-        <input type="submit">
+        <input type="submit" value="Filter Projects">
     </form>
-   
-    
-<!--	<button onclick="filter_table({{project.ID}})">Filter Table</button> -->
     
     <table>
     	<thead>
@@ -41,7 +36,8 @@
 		<th>Budget</th>
 		<th>Client</th>
 		<th>Department</th>
-		<th>Programmer</th>
+		<th>Employee</th>
+		<th>Manager</th>
 	</thead>
 	<tbody>
 		{{#each selected_project}}
@@ -52,9 +48,10 @@
 			<td>{{Anticipated_end_date}}</td>
 			<td>{{Budget}}</td>
 			<td>{{Client}}</td>
-			<td>{{Departments}}</td>
-			<td>{{Programmers}}</td>
-			<td><a href="/update/{{ID}}">Update</a></td>
+			<td>{{Department}}</td>
+			<td>{{Employee}}</td>
+			<td>{{Manager}}</td>
+			<td><a href="/update/{{ID}}/{{Employee}}">Update</a></td>
 		</tr>
 		{{/each}}
 	</tbody>
