@@ -106,7 +106,7 @@ function getNewEmployee(res, context, employee, id, complete, next){
 	});
 }
 
-function getSelectedProject(res, context, id, complete){	
+function getSelectedDeleteProject(res, context, id, complete){	
 	var sql = "SELECT ID, Name FROM Projects WHERE ID=?";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -172,7 +172,7 @@ app.get('/update/:id/:employee',function(req,res,next){
 app.get('/delete/:id/:employee',function(req,res,next){
 	callbackCount = 0;
 	var context = {};
-	getSelectedProject(res, context, req.params.id, complete);
+	getSelectedDeleteProject(res, context, req.params.id, complete);
 	getSelectedEmployee(res, context, req.params.employee, complete);
 	function complete() {	
 		callbackCount++;
