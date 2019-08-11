@@ -183,9 +183,11 @@ app.get('/update/:id/:employee',function(req,res,next){
 	getProject(res, context, req.params.id, complete);
 	getClient(res, context, complete);
 	context.selected_Employee = req.params.employee;
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 2){
+			console.log(context.project);
+			console.log(context.client);
 			res.render('updateProject', context);
 		}
 	}
@@ -226,9 +228,10 @@ app.get('/displayTables', function(req,res,next){
 	var context = {};
 	getEmployee(res, context, complete);
 	getDepartment(res, context, complete);
+	getClient(res, context, complete);
 	function complete() {	
 		callbackCount++;
-		if(callbackCount >= 2){
+		if(callbackCount >= 3){
 			res.render('displayTables', context);
 		}
 	}
@@ -306,33 +309,6 @@ app.post('/insert',function(req,res){
         });
 });
 
-app.get('/addEmployee/:name',function(req,res,next){
-        var context = {};
-        context.projects = [{ Name: req.params.name}];
-        var sql2 = "SELECT e.Name FROM Employees e";
-        sql2 = mysql.pool.query(sql2, function(error, results, fields){
-                if(error){
-                        console.log(JSON.stringify(error));
-                        res.write(JSON.stringify(error));
-                        res.end();
-                }
-                context.employees = results;
-                res.render('addEmployee', context);
-        });
-});
-
-app.post('/addEmployee',function(req,res){
-        var val = req.body.selectProject;
-	var val2 = req.body.addEmployee;
-        var sql = "INSERT INTO Projects_to_Employees (Project_id, Employee_id) VALUES((SELECT p.ID FROM Projects p WHERE p.Name = ?),(SELECT e.ID FROM Employees e WHERE e.Name = ?))";
-        sql = mysql.pool.query(sql, [val, val2], function(error, results, fields){
-                if(error){
-                        console.log(JSON.stringify(error));
-                        res.write(JSON>stringify(error));
-                        res.end();
-                }
-        });
-});
 
 app.get('/insertClient',function(req,res,next){
     res.render('insertClient');
