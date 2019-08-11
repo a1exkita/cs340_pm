@@ -6,15 +6,15 @@ acceptBtn.addEventListener('click', function () {
    var addStart = document.getElementById('start-date-attribution-input').value.trim();
    var addEnd = document.getElementById('end-date-attribution-input').value.trim();
    var addBudget = document.getElementById('budget-attribution-input').value.trim();
-   var addClientId = document.getElementById('clientId-attribution-input').value.trim();
+   var addClientName = document.getElementById('clientId-attribution-input').value.trim();
 
    if(addName.length > 0 && addStart.length > 0 && addEnd.length > 0 &&
-     addBudget.length > 0 && addClientId.length >= -1 ){
+     addBudget.length > 0 && addClientName.length > 0 ){
       console.log(addName);
       console.log(addStart);
       console.log(addEnd);
       console.log(addBudget);
-      console.log(addClientId);
+      console.log(addClientName);
    }
    else{
       alert('Enter values in all required fields');
@@ -28,7 +28,7 @@ acceptBtn.addEventListener('click', function () {
        startDate: addStart,
        endDate: addEnd,
        budget: addBudget,
-       clientId: addClientId
+       clientName: addClientName
    });
 
    postRequest.setRequestHeader('Content-Type', 'application/json');

@@ -14,7 +14,7 @@ app.set('port', process.argv[2]);
 
 app.use('/public', express.static('public'));
 
-
+// want to ignore this.
 function getAllProject(res, context, complete) {
 	mysql.pool.query('SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget FROM Projects p ORDER BY p.ID ASC', function(err, rows, fields){
                 if(err){
@@ -26,7 +26,7 @@ function getAllProject(res, context, complete) {
 	});
 }
 
-
+// want to ignore this.
 app.get('/', function(req,res,next){
         callbackCount = 0;
 	var context = {};
@@ -40,12 +40,22 @@ app.get('/', function(req,res,next){
 });
 
 app.get('/insert',function(req,res,next){
-    res.render('insert');
+	var context = {};
+        var sql = "SELECT c.Name FROM Clients c";
+        sql = mysql.pool.query(sql, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON.stringify(error));
+                        res.end();
+                }
+                context.clients = results;
+    	    res.render('insert', context);
+        });
 });
 
 app.post('/insert',function(req,res){
-        var values = [req.body.name, req.body.startDate, req.body.endDate, req.body.budget, req.body.clientId];
-        var sql = "INSERT INTO Projects (Name, Start_date, Anticipated_end_date, Budget, Client_id) VALUES (?,?,?,?,?)";
+        var values = [req.body.name, req.body.startDate, req.body.endDate, req.body.budget, req.body.clientName];
+        var sql = "INSERT INTO Projects (Name, Start_date, Anticipated_end_date, Budget, Client_id) VALUES (?,?,?,?,(SELECT c.ID FROM Clients c WHERE c.Name = ?))";
         sql = mysql.pool.query(sql, values, function(error, results, fields){
                 if(error){
                         console.log(JSON.stringify(error));
@@ -53,22 +63,11 @@ app.post('/insert',function(req,res){
                         res.end();
                 }
         });
-        // res.redirect('/addEmployee');
 });
 
 app.get('/addEmployee/:name',function(req,res,next){
         var context = {};
         context.projects = [{ Name: req.params.name}];
-        // var sql = "SELECT p.Name FROM Projects p";
-        // sql = mysql.pool.query(sql, function(error, results, fields){
-        //         if(error){
-        //                 console.log(JSON.stringify(error));
-        //                 res.write(JSON.stringify(error));
-        //                 res.end();
-        //         }
-        //         console.log(results);
-        //         context.projects = results;
-        // });
         var sql2 = "SELECT e.Name FROM Employees e";
         sql2 = mysql.pool.query(sql2, function(error, results, fields){
                 if(error){
@@ -86,6 +85,74 @@ app.post('/addEmployee',function(req,res){
 	var val2 = req.body.addEmployee;
         var sql = "INSERT INTO Projects_to_Employees (Project_id, Employee_id) VALUES((SELECT p.ID FROM Projects p WHERE p.Name = ?),(SELECT e.ID FROM Employees e WHERE e.Name = ?))";
         sql = mysql.pool.query(sql, [val, val2], function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON>stringify(error));
+                        res.end();
+                }
+        });
+});
+
+app.get('/insertClient',function(req,res,next){
+    res.render('insertClient');
+});
+
+app.post('/insertClient',function(req,res){
+        var values = [req.body.name];
+        var sql = "INSERT INTO Clients (Name) VALUES (?)";
+        sql = mysql.pool.query(sql, values, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON>stringify(error));
+                        res.end();
+                }
+        });
+});
+
+app.get('/insertEmployee',function(req,res,next){
+    var context = {};
+    var sql = "SELECT e.Name FROM Employees e";
+    sql = mysql.pool.query(sql, function(error, results, fields){
+            if(error){
+                    console.log(JSON.stringify(error));
+                    res.write(JSON.stringify(error));
+                    res.end();
+            }
+            context.employees = results;
+    });
+    var sql2 = "SELECT d.Name FROM Departments d";
+    sql2 = mysql.pool.query(sql2, function(error, results, fields){
+            if(error){
+                    console.log(JSON.stringify(error));
+                    res.write(JSON.stringify(error));
+                    res.end();
+            }
+            context.departments = results;
+	    res.render('insertEmployee', context);
+    });
+});
+
+app.post('/insertEmployee',function(req,res){
+        var values = [req.body.name, req.body.manager, req.body.department];
+        var sql = "INSERT INTO Employees (Name, Manager_id, Department_id) VALUES (?, (SELECT e2.ID FROM Employees e2 WHERE e2.Name = ?), (SELECT d.ID FROM Departments d WHERE d.Name = ?))";
+        sql = mysql.pool.query(sql, values, function(error, results, fields){
+                if(error){
+                        console.log(JSON.stringify(error));
+                        res.write(JSON>stringify(error));
+                        res.end();
+                }
+		console.log(results);
+        });
+});
+
+app.get('/insertDepartment',function(req,res,next){
+    res.render('insertDepartment');
+});
+
+app.post('/insertDepartment',function(req,res){
+        var values = [req.body.name];
+        var sql = "INSERT INTO Departments (Name) VALUES (?)";
+        sql = mysql.pool.query(sql, values, function(error, results, fields){
                 if(error){
                         console.log(JSON.stringify(error));
                         res.write(JSON>stringify(error));

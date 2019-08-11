@@ -15,34 +15,33 @@
   </header>
 
   <main>
-          <h2>Insert New Project</h2>
+          <h2>Insert New Employee</h2>
           <div class="input-element">
             <label class="prompt" for="name-input">Name</label>
             <input type="text" class="box" id="name-attribution-input">
           </div>
           <div class="input-element">
-            <label class="prompt" for="rooms-input">Start_date</label>
-            <input type="date" class="box" id="start-date-attribution-input">
-          </div>
-          <div class="input-element">
-            <label class="prompt" for="roommates-input">Anticipated_end_date</label>
-            <input type="date" class="box" id="end-date-attribution-input">
-          </div>
-          <div class="input-element">
-            <label class="prompt" for="price-input">Budget</label>
-            <input type="text" class="box" id="budget-attribution-input">
-          </div>
-          <div class="input-element">
-            <label class="prompt" for="name-input">Client_id</label>
-            <select id="clientId-attribution-input">
+            <label class="prompt" for="name-input">Manager</label>
+            <!-- <input type="text" class="box" id="manager-attribution-input"> -->
+            <select id="manager-attribution-input">
                         <option disabled selected value> -- select -- </option>
-                        {{#each clients}}
+                        {{#each employees}}
+                        <option>{{Name}}</option>
+                        {{/each}}
+            </select>
+          </div>
+          <div class="input-element">
+            <label class="prompt" for="name-input">Department</label>
+            <!-- <input type="text" class="box" id="department-attribution-input"> -->
+            <select id="deparment-attribution-input">
+                        <option disabled selected value> -- select -- </option>
+                        {{#each departments}}
                         <option>{{Name}}</option>
                         {{/each}}
             </select>
           </div>
 
-        <button type="button" class="accept-button" >Enter</button>
+          <button type="button" class="accept-button4" >Enter</button>
 
 
   </main>

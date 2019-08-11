@@ -1,4 +1,4 @@
-var acceptBtn = document.getElementsByClassName('accept-button3')[0];
+var acceptBtn = document.getElementsByClassName('accept-button2')[0];
 
 acceptBtn.addEventListener('click', function () {
 
