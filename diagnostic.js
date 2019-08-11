@@ -94,7 +94,6 @@ function getNewProgrammer(res, context, complete){
 
 
 function getAllProject(res, context, complete) {
-	var sql = "SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, c.Name AS Client, d.Name AS Department, e.Name AS Employee, (SELECT e2.name FROM Employees e2 WHERE e2.ID = e.Manager_id) AS Manager FROM Projects p, Employees e, Departments d, Clients c, Projects_to_Employees pte WHERE ORDER BY p.ID ASC";
 	mysql.pool.query('SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, c.Name AS Client, d.Name AS Department, e.Name AS Employee, (SELECT e2.name FROM Employees e2 WHERE e2.ID = e.Manager_id) AS Manager FROM Projects p, Employees e, Departments d, Clients c, Projects_to_Employeess pte WHERE C.ID = p.Client_id AND p.ID = pte.Project_id AND pte.Employee_id = e.ID AND e.Department_ID = d.ID ORDER BY p.ID ASC', function(err, rows, fields){
                 if(err){
                         next(err);
