@@ -1,4 +1,4 @@
-  <body>
+<body>
 
     <header>
       <!-- The <i> tag below includes the bullhorn icon from Font Awesome -->
@@ -17,50 +17,42 @@
 
     <main>
 	
-    <h3>Current Projects:</h3>
-   
-    <form id="filterform" action="/filter" method="get">
-    	<select name="project_id" id="project-selector">
-		<option value="0">-- select project --</option>
-		{{#each all_project}}
-			<option value="{{ID}}">{{Name}}</option>
-		{{/each}}
-	</select><br>
-        <input type="submit" value="Filter Projects">
-    </form>
-    
+    <h3>Current Employees:</h3>
     <table>
     	<thead>
 		<th>ID</th>
 		<th>Name</th>
-		<th>Start Date</th>
-		<th>End Date</th>
-		<th>Budget</th>
-		<th>Client</th>
-		<th>Department</th>
-		<th>Employee</th>
 		<th>Manager</th>
+		<th>Department</th>
 	</thead>
 	<tbody>
-		{{#each selected_project}}
+		{{#each employees}}
 		<tr>
 			<td>{{ID}}</td>
 			<td>{{Name}}</td>
-			<td>{{Start_date}}</td>
-			<td>{{Anticipated_end_date}}</td>
-			<td>{{Budget}}</td>
-			<td>{{Client}}</td>
-			<td>{{Department}}</td>
-			<td>{{Employee}}</td>
 			<td>{{Manager}}</td>
-			<td><a href="/update/{{ID}}/{{Employee}}">Update</a></td>
-			<td><a href="/delete/{{ID}}/{{Employee}}">Delete Employee</a></td>
+			<td>{{Department}}</td>
 		</tr>
 		{{/each}}
 	</tbody>
     </table>
 
-	
+    <h3>Current Departments:</h3>
+    <table>
+    	<thead>
+		<th>ID</th>
+		<th>Name</th>
+	</thead>
+	<tbody>
+		{{#each departments}}
+		<tr>
+			<td>{{ID}}</td>
+			<td>{{Name}}</td>
+		</tr>
+		{{/each}}
+	</tbody>
+    </table>
+
 
     </main>
 
