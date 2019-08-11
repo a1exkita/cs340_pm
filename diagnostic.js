@@ -15,7 +15,7 @@ app.set('port', process.argv[2]);
 app.use('/public', express.static('public'));
 
 
-function getProject(res, context, id, complete){	
+function getProject(res, context, id, complete){
 	var sql = "SELECT ID, Name, Start_date, Anticipated_end_date, Budget, Client_id FROM Projects WHERE ID = ?";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -41,7 +41,7 @@ function getClient(res, context, complete) {
 }
 
 
-function getOldDepartment(res, context, id, complete){	
+function getOldDepartment(res, context, id, complete){
 	var sql = "SELECT ID, Name FROM Departments D, Projects_to_Departments ptd WHERE ? = ptd.Project_id AND ptd.Department_id = D.ID";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -55,7 +55,7 @@ function getOldDepartment(res, context, id, complete){
 }
 
 
-function getNewDepartment(res, context, complete){	
+function getNewDepartment(res, context, complete){
 	mysql.pool.query('SELECT ID, Name FROM Departments D', function(err, results, fields) {
 		if(err) {
 			next(err);
@@ -67,7 +67,7 @@ function getNewDepartment(res, context, complete){
 }
 
 
-function getOldProgrammer(res, context, id, complete){	
+function getOldProgrammer(res, context, id, complete){
 	var sql = "SELECT ID, Name FROM Programmers P, Projects_to_Programmers ptp WHERE ? = ptp.Project_id AND ptp.Programmer_id = P.ID";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -81,7 +81,7 @@ function getOldProgrammer(res, context, id, complete){
 }
 
 
-function getNewProgrammer(res, context, complete){	
+function getNewProgrammer(res, context, complete){
 	mysql.pool.query('SELECT ID, Name FROM Programmers P', function(err, results, fields) {
 		if(err) {
 			next(err);
@@ -117,7 +117,7 @@ function getAllSelectedProject(res, context, complete) {
 }
 
 
-function getSelectedProject(res, context, id, complete){	
+function getSelectedProject(res, context, id, complete){
 	var sql = "SELECT p.ID, p.Name, p.Start_date, p.Anticipated_end_date, p.Budget, C.Name AS Client, D.Name AS Departments, P.Name AS Programmers FROM Projects p, Programmers P, Departments D, Clients C, Projects_to_Programmers ptp, Projects_to_Departments ptd WHERE C.ID = p.Client_id AND p.ID = ? AND p.ID = ptp.Project_id AND ptp.Programmer_id = P.ID AND p.ID = ptd.Project_id AND ptd.Department_id = D.ID ORDER BY p.ID ASC";
 	var inserts = [id];
 	mysql.pool.query(sql, inserts, function(err, results, fields) {
@@ -136,13 +136,12 @@ app.get('/', function(req,res,next){
 	var context = {};
 	getAllProject(res, context, complete);
 	getAllSelectedProject(res, context, complete);
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 2){
 			res.render('index', context);
 		}
 	}
-
 });
 
 app.get('/filter', function(req,res,next){
@@ -152,10 +151,10 @@ app.get('/filter', function(req,res,next){
 	if (req.query.project_id != 0) {
 		getSelectedProject(res, context, req.query.project_id, complete);
 	}
-	else {	
+	else {
 		getAllSelectedProject(res, context, complete);
 	}
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 2){
 			res.render('index', context);
@@ -174,7 +173,7 @@ app.get('/update/:id',function(req,res,next){
 	var context = {};
 	getProject(res, context, req.params.id, complete);
 	getClient(res, context, complete);
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 2){
 			res.render('updateProject', context);
@@ -188,7 +187,7 @@ app.get('/updateDepartment/:id',function(req,res,next){
 	getProject(res, context, req.params.id, complete);
 	getOldDepartment(res, context, req.params.id, complete);
 	getNewDepartment(res, context, complete);
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 3){
 			res.render('updateDepartment', context);
@@ -204,7 +203,7 @@ app.get('/updateProgrammer/:id',function(req,res,next){
 	getOldDepartment(res, context, req.params.id, complete);
 	getOldProgrammer(res, context, req.params.id, complete);
 	getNewProgrammer(res, context, complete);
-	function complete() {	
+	function complete() {
 		callbackCount++;
 		if(callbackCount >= 4){
 			res.render('updateProgrammer', context);
@@ -221,7 +220,7 @@ app.post('/', function(req, res, next){
 			next(err);
                         return;
 		}else{
-			res.redirect('index');	
+			res.redirect('index');
 		}
 	});
 });
@@ -273,26 +272,26 @@ app.put('/updateProgrammer/:id', function(req,res, next){
 
 
 app.get('/addProgrammer',function(req,res,next){
-        var context = {}; 
+        var context = {};
         var sql = "SELECT p.Name FROM Projects p";
         sql = mysql.pool.query(sql, function(error, results, fields){
                 if(error){
                         console.log(JSON.stringify(error));
                         res.write(JSON.stringify(error));
                         res.end();
-                }   
+                }
                 context.projects = results;
-        }); 
+        });
         var sql2 = "SELECT prog.Name FROM Programmers prog";
         sql2 = mysql.pool.query(sql2, function(error, results, fields){
                 if(error){
                         console.log(JSON.stringify(error));
                         res.write(JSON.stringify(error));
                         res.end();
-                }   
+                }
                 context.programmers = results;
                 res.render('addProgrammer', context);
-        }); 
+        });
 });
 
 app.get('/addDepartment',function(req,res,next){
@@ -312,10 +311,10 @@ app.get('/addDepartment',function(req,res,next){
                         console.log(JSON.stringify(error));
                         res.write(JSON.stringify(error));
                         res.end();
-                }   
+                }
                 context.departments = results;
                 res.render('addDepartment', context);
-        }); 
+        });
 });
 
 
@@ -354,9 +353,9 @@ app.post('/addProgrammer',function(req,res){
                         console.log(JSON.stringify(error));
                         res.write(JSON>stringify(error));
                         res.end();
-                }   
+                }
                 res.redirect('/');
-        }); 
+        });
 });
 
 app.use(function(req,res){

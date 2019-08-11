@@ -7,18 +7,18 @@
       <nav class="navbar">
         <ul class="navlist">
           <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
-          <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
-          <li class="navitem navlink"><a href="./updateDepartment">Update/Delete a department</a></li>
-          <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
-          <li class="navitem navlink"><a href="./updateProgrammer">Update/Delete a programmer</a></li>
+          <li class="navitem navlink"><a href="./insertEmployee">Insert a employee</a></li>
+          <li class="navitem navlink"><a href="./insertDepartment">Insert a department</a></li>
+          <li class="navitem navlink"><a href="./insertClient">Insert a client</a></li>
+
         </ul>
       </nav>
     </header>
 
     <main>
-	
+
     <h3>Current Projects:</h3>
-   
+
     <form id="filterform" action="/filter" method="get">
     	<select name="project_id" id="project-selector">
 		<option value="0">-- select project --</option>
@@ -28,10 +28,10 @@
 	</select><br>
         <input type="submit">
     </form>
-   
-    
+
+
 <!--	<button onclick="filter_table({{project.ID}})">Filter Table</button> -->
-    
+
     <table>
     	<thead>
 		<th>ID</th>
@@ -44,23 +44,20 @@
 		<th>Programmer</th>
 	</thead>
 	<tbody>
-		{{#each selected_project}}
+		{{#each all_project}}
 		<tr>
 			<td>{{ID}}</td>
 			<td>{{Name}}</td>
 			<td>{{Start_date}}</td>
 			<td>{{Anticipated_end_date}}</td>
 			<td>{{Budget}}</td>
-			<td>{{Client}}</td>
-			<td>{{Departments}}</td>
-			<td>{{Programmers}}</td>
 			<td><a href="/update/{{ID}}">Update</a></td>
 		</tr>
 		{{/each}}
 	</tbody>
     </table>
 
-	
+
 
     </main>
 

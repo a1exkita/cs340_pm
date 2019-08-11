@@ -1,0 +1,39 @@
+<html>
+  <body>
+
+    <header>
+      <!-- The <i> tag below includes the bullhorn icon from Font Awesome -->
+      <a href="./"><h1 class="site-title">Project Management Tool</h1></a>
+
+      <nav class="navbar">
+        <ul class="navlist">
+                <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
+                <li class="navitem navlink"><a href="./insertEmployee">Insert a employee</a></li>
+                <li class="navitem navlink"><a href="./insertDepartment">Insert a department</a></li>
+                <li class="navitem navlink"><a href="./insertClient">Insert a client</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+            <h2>Select Project</h2>
+                <select id="select-project">
+                        {{#each projects}}
+                                <option>{{Name}}</option>
+                        {{/each}}
+
+                </select>
+            <h2>Add Employee</h2>
+                <select id="add-employee">
+                        <option disabled selected value> -- select -- </option>
+			{{#each employees}}
+				<option>{{Name}}</option>
+			{{/each}}
+                </select>
+            <br>
+            <button type="button" class="accept-button3">Add</button>
+    </main>
+
+  </body>
+
+</html>

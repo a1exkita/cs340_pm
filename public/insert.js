@@ -33,9 +33,8 @@ acceptBtn.addEventListener('click', function () {
 
    postRequest.setRequestHeader('Content-Type', 'application/json');
    postRequest.send(requestBody);
-   window.location.pathname ='/addDepartment';
 
-   cleanInput();
+   window.location.replace('/addEmployee/' + addName);
 });
 
 function cleanInput() {
@@ -45,5 +44,3 @@ function cleanInput() {
   document.getElementById('budget-attribution-input').value = "";
   document.getElementById('clientId-attribution-input').value = "";
 }
-
-cleanInput();
