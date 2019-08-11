@@ -1,6 +1,6 @@
-function update_Programmer(id) {
+function update_Employee(id) {
 	$.ajax({
-		url: '/updateProgrammer/' + id,
+		url: '/updateEmployeeQuery/' + id,
 		type: 'PUT',
 		data: $('#updateProgrammerform').serialize(),
 		success: function(result){
