@@ -7,18 +7,18 @@
       <nav class="navbar">
         <ul class="navlist">
           <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
-          <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
-          <li class="navitem navlink"><a href="./addProgrammer">Add a programmer</a></li>
-	  <li class="navitem navlink"><a href="./displayTables">Display Employees and Departments</a></li>
-
+          <li class="navitem navlink"><a href="./insertEmployee">Insert a employee</a></li>
+          <li class="navitem navlink"><a href="./insertDepartment">Insert a department</a></li>
+          <li class="navitem navlink"><a href="./insertClient">Insert a client</a></li>
+          <li class="navitem navlink"><a href="./displayTables">Display Employees and Departments</a></li>
         </ul>
       </nav>
     </header>
 
     <main>
-	
+
     <h3>Current Projects:</h3>
-   
+
     <form id="filterform" action="/filter" method="get">
     	<select name="project_id" id="project-selector">
 		<option value="0">-- select project --</option>
@@ -28,7 +28,7 @@
 	</select><br>
         <input type="submit" value="Filter Projects">
     </form>
-    
+
     <table>
     	<thead>
 		<th>ID</th>
@@ -42,7 +42,7 @@
 		<th>Manager</th>
 	</thead>
 	<tbody>
-		{{#each selected_project}}
+		{{#each all_project}}
 		<tr>
 			<td>{{ID}}</td>
 			<td>{{Name}}</td>
@@ -60,7 +60,7 @@
 	</tbody>
     </table>
 
-	
+
 
     </main>
 

@@ -6,17 +6,18 @@
 
     <nav class="navbar">
       <ul class="navlist">
-              <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
-              <li class="navitem navlink"><a href="./addDepartment">Add a department</a></li>
-              <li class="navitem navlink"><a href="./addProgrammer">Add a programmers</a></li>
-	      <li class="navitem navlink"><a href="./displayTables">Display Employees and Departments</a></li>
+          <li class="navitem navlink"><a href="./insert">Insert a project</a></li>
+          <li class="navitem navlink"><a href="./insertEmployee">Insert a employee</a></li>
+          <li class="navitem navlink"><a href="./insertDepartment">Insert a department</a></li>
+          <li class="navitem navlink"><a href="./insertClient">Insert a client</a></li>
+          <li class="navitem navlink"><a href="./displayTables">Display Employees and Departments</a></li>
 
       </ul>
     </nav>
   </header>
 
   <main>
-
+          <h2>Insert New Project</h2>
           <div class="input-element">
             <label class="prompt" for="name-input">Name</label>
             <input type="text" class="box" id="name-attribution-input">
@@ -34,11 +35,16 @@
             <input type="text" class="box" id="budget-attribution-input">
           </div>
           <div class="input-element">
-            <label class="prompt" for="address-input">Client_id</label>
-            <input type="text" class="box" id="clientId-attribution-input">
+            <label class="prompt" for="name-input">Client_id</label>
+            <select id="clientId-attribution-input">
+                        <option disabled selected value> -- select -- </option>
+                        {{#each clients}}
+                        <option>{{Name}}</option>
+                        {{/each}}
+            </select>
           </div>
 
-        <button type="button" class="accept-button">Enter</button>
+        <button type="button" class="accept-button" >Enter</button>
 
 
   </main>
