@@ -1,17 +1,28 @@
 {
-  "name": "hello-world",
+  "name": "cs340_pm",
   "version": "1.0.0",
-  "description": "Hello world with express and node.js",
-  "main": "app.js",
+  "description": "Every time when you try to make a change, you need to generate & change your branch as follows. ```shell \t$ git clone <..the address..> \t$ git branch // check the current branch(es) \t\t* master \t$ git branch sub1  // generate a branch \"sub1\"(random name) \t$ git checkout sub1 // move to sub1 branch \t$ git branch // check again \t\tmaster \t\t* sub1 // * means the current branch",
+  "main": "main.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.16.2",
+    "forever": "^1.0.0",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "OSU",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktsht/cs340_pm.git"
+  },
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express": "^4.13.2",
-    "express-handlebars": "^2.0.1",
-    "express-session": "^1.11.3",
-    "mysql": "^2.8.0"
-  }
+  "bugs": {
+    "url": "https://github.com/ktsht/cs340_pm/issues"
+  },
+  "homepage": "https://github.com/ktsht/cs340_pm#readme"
 }
