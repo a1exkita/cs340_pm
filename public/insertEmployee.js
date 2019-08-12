@@ -6,7 +6,7 @@ acceptBtn.addEventListener('click', function () {
    var addManager = document.getElementById('manager-attribution-input').value.trim();
    var addDepartment = document.getElementById('deparment-attribution-input').value.trim();
 
-   if(addName.length > 0 && addManager.length > 0 && addDepartment.length > 0){
+   if(addName.length > 0 && addDepartment.length > 0){
       console.log(addName);
       console.log(addManager);
       console.log(addDepartment);
